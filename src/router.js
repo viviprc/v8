@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Inicio from './components/Inicio'
-import SobreMi from './components/SobreMi'
-import Contacto from './components/Contacto'
 import Post from './components/Post'
-import Articulo from './components/Articulo'
 import NotFound from './components/NotFound'
+import Administrador from './components/Administrador'
+import Avanzado from './components/Avanzado'
+import Total from './components/Total'
+
 Vue.use(Router)
 
 export default new Router({
@@ -14,17 +14,31 @@ export default new Router({
         {
             path: '/',
             name: 'inicio',
-            component: Inicio
+            component: () => import('./components/Inicio.vue'),
+        },
+        {
+            path: '/home',
+            redirect: '/'
+        },
+        {
+            path: '/inicio',
+            redirect: '/' 
+        },
+        {
+            path: '/portada',
+            redirect: '/'
         },
         {
             path: '/sobremi',
             name: 'sobremi',
-            component: SobreMi
+            component: () => import('./components/SobreMi.vue'),
+            alias: ['/acerca']
         },
         {
             path: '/contacto',
             name: 'contacto',
-            component: Contacto
+            component: () => import('./components/Contacto.vue'),
+            alias: ['/contactame']
         },
         {
             path: '/post',
@@ -33,9 +47,26 @@ export default new Router({
             children: [
                 {
                     path: ':articulo',
-                    component: Articulo,
+                    component: () => import('./components/Articulo.vue'),
                 }
             ]
+        },
+        {
+            path: '/administrador',
+            name: 'administrador',
+            component: Administrador,
+            children: [
+                {
+                    path: 'simple',
+                    component: Total
+                },
+                {
+                    path: 'avanzado',
+                    component: Avanzado
+
+                }
+            ]
+
         },
         {
             path: '*',
